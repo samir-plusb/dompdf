@@ -4791,6 +4791,13 @@ EOT;
             static $imagickClonable = null;
             if ($imagickClonable === null) {
                 $imagickClonable = version_compare(Imagick::IMAGICK_EXTVER, '3.0.1rc1') > 0;
+
+                //see here: https://github.com/mkoppanen/imagick/issues/194
+                if(Imagick::IMAGICK_EXTVER === '@PACKAGE_VERSION@'){
+                    if(!method_exists(Imagick::class, 'clone')){
+                        $imagickClonable = true;
+                    }
+                }
             }
 
             $imagick = new \Imagick($file);
